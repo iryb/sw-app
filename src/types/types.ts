@@ -24,3 +24,15 @@ export type Hero = {
   url: string;
   vehicles: number[];
 };
+
+export type Film = {
+  id: number;
+  title: string;
+};
+
+export type getFilmsResponse = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Film[];
+};
