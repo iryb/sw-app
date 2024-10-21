@@ -1,10 +1,9 @@
-import { API } from "../constants/constants.ts";
-import { Hero } from "../types/types";
+import { API } from "../constants/constants";
+import { getPeopleResponse } from "../types/types";
 
-export const getPeople = async (): Promise<Hero[]> => {
-  return fetch(`${API}/people`)
+export const getPeople = async (page: number): Promise<getPeopleResponse> => {
+  return fetch(`${API}/people/?page=${page}`)
     .then((res) => res.json())
-    .then((data) => data.results)
     .catch((error) => {
       throw new Error(error);
     });

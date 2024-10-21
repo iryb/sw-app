@@ -1,4 +1,12 @@
+export type getPeopleResponse = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Hero[];
+};
+
 export type Hero = {
+  id: string;
   birthYear: string;
   eyeColor: string;
   films: number[];
