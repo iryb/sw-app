@@ -14,7 +14,8 @@ export const HeroesList = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedHero, setSelectedHero] = useState<string>();
   const [selectedHeroName, setSelectedHeroName] = useState<string>();
-  const [selectedHeroFilms, setSelectedHeroFilms] = useState<number[]>();
+  const [selectedHeroStarships, setSelectedHeroStarships] =
+    useState<number[]>();
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -27,10 +28,10 @@ export const HeroesList = () => {
     setOpenModal(!openModal);
   };
 
-  const handleHeroClick = (id: string, name: string, films: number[]) => {
+  const handleHeroClick = (id: string, name: string, starships: number[]) => {
     setSelectedHero(id);
     setSelectedHeroName(name);
-    setSelectedHeroFilms(films);
+    setSelectedHeroStarships(starships);
     setOpenModal(true);
   };
 
@@ -47,8 +48,8 @@ export const HeroesList = () => {
     <div>
       {heroes && (
         <>
-          {heroes.map(({ id, name, films }: Hero) => (
-            <p key={id} onClick={() => handleHeroClick(id, name, films)}>
+          {heroes.map(({ id, name, starships }: Hero) => (
+            <p key={id} onClick={() => handleHeroClick(id, name, starships)}>
               {name}
             </p>
           ))}
@@ -59,13 +60,13 @@ export const HeroesList = () => {
               handleChangePage={handleChangePage}
             />
           </Grid>
-          {selectedHero && selectedHeroName && selectedHeroFilms && (
+          {selectedHero && selectedHeroName && selectedHeroStarships && (
             <HeroModal
               name={selectedHeroName}
               id={selectedHero}
               open={openModal}
               onClose={handleModalClose}
-              filmIds={selectedHeroFilms}
+              starships={selectedHeroStarships}
             />
           )}
         </>
