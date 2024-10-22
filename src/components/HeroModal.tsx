@@ -5,14 +5,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useCallback, useEffect, useState } from "react";
-import {
-  addEdge,
-  applyNodeChanges,
-  ReactFlow,
-  useEdgesState,
-  useNodesState,
-} from "@xyflow/react";
+import { useEffect, useState } from "react";
+import { ReactFlow } from "@xyflow/react";
+import { useReactFlow } from "../hooks";
 import "@xyflow/react/dist/style.css";
 
 type HeroModalProps = {
@@ -22,8 +17,6 @@ type HeroModalProps = {
   open: boolean;
   onClose: () => void;
 };
-
-const initialEdges = [{ id: "e1-1", source: "0", target: "0" }];
 
 export const HeroModal = ({
   name,
@@ -39,31 +32,11 @@ export const HeroModal = ({
   const initialNodes = [
     { id: "0", position: { x: 0, y: 0 }, data: { label: <p>{name}</p> } },
   ];
-
-  const [nodes, setNodes] = useNodesState(initialNodes);
-  const [edges, setEdges] = useEdgesState(initialEdges);
+  const { nodes, edges, addNode, addNewEdge } = useReactFlow({ initialNodes });
 
   const handleClose = () => {
     onClose();
   };
-
-  const addNode = useCallback((id: string, position: any, data: any) => {
-    setNodes((nds) => [
-      ...nds,
-      {
-        id,
-        position,
-        data,
-      },
-    ]);
-  }, []);
-
-  const addNewEdge = useCallback(
-    (id: string, source: string, target: string) => {
-      setEdges((eds) => addEdge({ id, source, target }, eds));
-    },
-    []
-  );
 
   useEffect(() => {
     getPersonFilms(id)
@@ -81,26 +54,29 @@ export const HeroModal = ({
     }
   }, [starshipsIds]);
 
-  useEffect(() => {
-    setNodes(initialNodes);
-    setEdges(initialEdges);
-  }, [id]);
+  // useEffect(() => {
+  //   setNodes(initialNodes);
+  //   setEdges(initialEdges);
+  // }, [id]);
 
   useEffect(() => {
-    films.forEach(({ id, title, starships: filmStarships }) => {
-      addNode(
-        `film-n-${id}`,
-        { x: Math.random() * 500, y: 100 },
-        { label: <p>{title}</p> }
-      );
+    const nodeWidth = 150;
+    const horizontalSpacing = 50;
+
+    films.forEach(({ id, title, starships: filmStarships }, index) => {
+      const filmX = index * (nodeWidth + horizontalSpacing);
+
+      addNode(`film-n-${id}`, { x: filmX, y: 100 }, { label: <p>{title}</p> });
       addNewEdge(`film-e-${id}`, "0", `film-n-${id}`);
 
       starships
         .filter((starship) => filmStarships.includes(starship.id))
-        .forEach((starship) => {
+        .forEach((starship, starshipIndex) => {
+          const starshipX = starshipIndex * (nodeWidth + horizontalSpacing);
+
           addNode(
             `starship-n-${starship.id}`,
-            { x: Math.random() * 500, y: 200 },
+            { x: starshipX, y: 200 },
             { label: <p>{starship.name}</p> }
           );
           addNewEdge(
