@@ -1,9 +1,13 @@
 import styled from "@emotion/styled";
-import { ImageAPI } from "../constants/constants";
+import { useQuery } from "@tanstack/react-query";
+import { fetchImage } from "../services/api";
+import { Skeleton } from "@mui/material";
 
 type ImageProps = {
   id: string;
   alt: string;
+  width: number;
+  height: number;
 };
 
 const ImageStyled = styled("img")(() => ({
@@ -11,6 +15,24 @@ const ImageStyled = styled("img")(() => ({
   height: "auto",
 }));
 
-export const Image = ({ id, alt }: ImageProps) => {
-  return <ImageStyled src={`${ImageAPI}/${id}.jpg`} alt={alt} />;
+export const Image = ({ id, alt, width, height }: ImageProps) => {
+  const {
+    data: src,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["image", id],
+    queryFn: () => fetchImage(id),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  if (error) {
+    return <div>Error loading image</div>;
+  }
+
+  if (isLoading) {
+    return <Skeleton variant="rectangular" width={width} height={height} />;
+  }
+
+  return <ImageStyled width={width} height={height} src={src} alt={alt} />;
 };

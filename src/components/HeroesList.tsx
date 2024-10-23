@@ -6,6 +6,7 @@ import { transformPaginationCount } from "../utils/utils";
 import Grid from "@mui/material/Grid2";
 import { Card } from "./Card";
 import { Container } from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 export const HeroesList = () => {
   const [page, setPage] = useState(1);
@@ -16,11 +17,29 @@ export const HeroesList = () => {
 
   if (isError) return <p>Error: {error?.message}</p>;
 
+  if (isLoading)
+    return (
+      <Container maxWidth="xl">
+        <Grid container spacing={2} justifyContent={"center"} sx={{ my: 4 }}>
+          {[...Array(10)].map((_, index) => (
+            <Skeleton
+              key={index}
+              variant="rectangular"
+              width={250}
+              height={400}
+            />
+          ))}
+        </Grid>
+        <Grid size={12} display="flex" justifyContent="center" sx={{ my: 4 }}>
+          <Skeleton variant="rectangular" width={300} height={30} />
+        </Grid>
+      </Container>
+    );
+
   return (
     <>
       {heroes && (
         <Container maxWidth="xl">
-          {isLoading && <p>Loading...</p>}
           <Grid container spacing={2} justifyContent={"center"} sx={{ my: 4 }}>
             {heroes.map(({ id, name, starships }: Hero) => (
               <Card key={id} id={id} name={name} starships={starships} />

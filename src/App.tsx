@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Header } from "./components/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HeroProvider } from "./contexts/index";
 
 const queryClient = new QueryClient();
 
@@ -18,8 +19,10 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
-          <Header />
-          <HeroesList />
+          <HeroProvider>
+            <Header />
+            <HeroesList />
+          </HeroProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </div>

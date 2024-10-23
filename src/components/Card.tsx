@@ -1,9 +1,9 @@
 import { useModal } from "../hooks";
 import { Box, Paper, Typography } from "@mui/material";
-import React, { useState } from "react";
 import { HeroModal } from "./HeroModal";
 import { Image } from "./Image";
 import { styled } from "@mui/material/styles";
+import { useHeroContext } from "../contexts/index";
 
 type CardProps = {
   id: string;
@@ -13,15 +13,10 @@ type CardProps = {
 
 export const Card = ({ id, name, starships }: CardProps) => {
   const { isOpened, handleClose } = useModal();
-  const [selectedHero, setSelectedHero] = useState<string>();
-  const [selectedHeroName, setSelectedHeroName] = useState<string>();
-  const [selectedHeroStarships, setSelectedHeroStarships] =
-    useState<number[]>();
+  const { selectHero, selectedHero } = useHeroContext();
 
   const handleHeroClick = (id: string, name: string, starships: number[]) => {
-    setSelectedHero(id);
-    setSelectedHeroName(name);
-    setSelectedHeroStarships(starships);
+    selectHero({ id, name, starships });
     handleClose();
   };
 
@@ -69,17 +64,9 @@ export const Card = ({ id, name, starships }: CardProps) => {
   return (
     <Wrapper>
       <Item elevation={12} onClick={() => handleHeroClick(id, name, starships)}>
-        <Image id={id} alt={name} />
+        <Image width={235} height={320} id={id} alt={name} />
         <Title>{name}</Title>
-        {selectedHero && selectedHeroName && selectedHeroStarships && (
-          <HeroModal
-            name={selectedHeroName}
-            id={selectedHero}
-            open={isOpened}
-            onClose={handleClose}
-            starships={selectedHeroStarships}
-          />
-        )}
+        {selectedHero && <HeroModal open={isOpened} onClose={handleClose} />}
       </Item>
     </Wrapper>
   );

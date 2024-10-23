@@ -1,4 +1,4 @@
-import { API } from "../constants/constants";
+import { API, ImageAPI } from "../constants/constants";
 import {
   getFilmsResponse,
   getPeopleResponse,
@@ -27,4 +27,10 @@ export const fetchPersonStarships = async (
   );
   if (!res.ok) throw new Error("Failed to fetch starships");
   return res.json();
+};
+
+export const fetchImage = async (id: string): Promise<string> => {
+  const res = await fetch(`${ImageAPI}/${id}.jpg`);
+  if (!res.ok) throw new Error("Failed to fetch image");
+  return res.url;
 };
