@@ -1,22 +1,30 @@
-import React from "react";
-import "./App.css";
+import { HeroesList } from "./components/HeroesList";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { Header } from "./components/Header";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HeroProvider } from "./contexts/index";
+
+const queryClient = new QueryClient();
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <QueryClientProvider client={queryClient}>
+          <HeroProvider>
+            <Header />
+            <HeroesList />
+          </HeroProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </div>
   );
 }
