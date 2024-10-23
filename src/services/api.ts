@@ -5,30 +5,26 @@ import {
   getStarshipsResponse,
 } from "../types/types";
 
-export const getPeople = async (page: number): Promise<getPeopleResponse> => {
-  return fetch(`${API}/people/?page=${page}`)
-    .then((res) => res.json())
-    .catch((error) => {
-      throw new Error(error);
-    });
+export const fetchPeople = async (page: number): Promise<getPeopleResponse> => {
+  const res = await fetch(`${API}/people/?page=${page}`);
+  if (!res.ok) throw new Error("Failed to fetch people");
+  return res.json();
 };
 
-export const getPersonFilms = async (
+export const fetchPersonFilms = async (
   personId: string
 ): Promise<getFilmsResponse> => {
-  return await fetch(`${API}/films/?characters__in=${personId}`)
-    .then((res) => res.json())
-    .catch((error) => {
-      throw new Error(error);
-    });
+  const res = await fetch(`${API}/films/?characters__in=${personId}`);
+  if (!res.ok) throw new Error("Failed to fetch films");
+  return res.json();
 };
 
-export const getPersonStarships = async (
+export const fetchPersonStarships = async (
   heroStarshipsIds: number[]
 ): Promise<getStarshipsResponse> => {
-  return await fetch(`${API}/starships/?id__in=${heroStarshipsIds.toString()}`)
-    .then((res) => res.json())
-    .catch((error) => {
-      throw new Error(error);
-    });
+  const res = await fetch(
+    `${API}/starships/?id__in=${heroStarshipsIds.toString()}`
+  );
+  if (!res.ok) throw new Error("Failed to fetch starships");
+  return res.json();
 };
