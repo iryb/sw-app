@@ -5,6 +5,7 @@ import { Pagination } from "./Pagination";
 import { transformPaginationCount } from "../utils/utils";
 import Grid from "@mui/material/Grid2";
 import { Card } from "./Card";
+import { Box, Container, Stack } from "@mui/material";
 
 export const HeroesList = () => {
   const [error, setError] = useState(null);
@@ -22,23 +23,23 @@ export const HeroesList = () => {
   }, [page]);
 
   return (
-    <div>
+    <>
       {heroes && (
-        <Grid container spacing={2}>
-          {heroes.map(({ id, name, starships }: Hero) => (
-            <Grid key={id} columns={{ xs: 4, sm: 8, md: 12 / 5 }}>
-              <Card id={id} name={name} starships={starships} />
-            </Grid>
-          ))}
-          <Grid size={12} display="flex" justifyContent="center">
+        <Container maxWidth="xl">
+          <Grid container spacing={2} justifyContent={"center"} sx={{ my: 4 }}>
+            {heroes.map(({ id, name, starships }: Hero) => (
+              <Card key={id} id={id} name={name} starships={starships} />
+            ))}
+          </Grid>
+          <Grid size={12} display="flex" justifyContent="center" sx={{ my: 4 }}>
             <Pagination
               count={pageCount}
               currentPage={page}
               handleChangePage={(_, value: number) => setPage(value)}
             />
           </Grid>
-        </Grid>
+        </Container>
       )}
-    </div>
+    </>
   );
 };

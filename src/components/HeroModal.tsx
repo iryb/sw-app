@@ -9,6 +9,10 @@ import { useEffect, useState } from "react";
 import { ReactFlow } from "@xyflow/react";
 import { useReactFlow } from "../hooks";
 import "@xyflow/react/dist/style.css";
+import { Box } from "@mui/material";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import StarBorderPurple500Icon from "@mui/icons-material/StarBorderPurple500";
+import TheatersIcon from "@mui/icons-material/Theaters";
 
 type HeroModalProps = {
   name: string;
@@ -30,7 +34,20 @@ export const HeroModal = ({
   const [starships, setStarships] = useState<Starship[]>([]);
 
   const initialNodes = [
-    { id: "0", position: { x: 0, y: 0 }, data: { label: <p>{name}</p> } },
+    {
+      id: "0",
+      position: { x: 0, y: 0 },
+      data: {
+        label: (
+          <p>
+            <span style={{ display: "inline-block", verticalAlign: "middle" }}>
+              <PersonOutlineIcon />
+            </span>
+            <span>{name}</span>
+          </p>
+        ),
+      },
+    },
   ];
   const { nodes, edges, addNode, addNewEdge } = useReactFlow({ initialNodes });
 
@@ -66,7 +83,22 @@ export const HeroModal = ({
     films.forEach(({ id, title, starships: filmStarships }, index) => {
       const filmX = index * (nodeWidth + horizontalSpacing);
 
-      addNode(`film-n-${id}`, { x: filmX, y: 100 }, { label: <p>{title}</p> });
+      addNode(
+        `film-n-${id}`,
+        { x: filmX, y: 200 },
+        {
+          label: (
+            <p>
+              <span
+                style={{ display: "inline-block", verticalAlign: "middle" }}
+              >
+                <TheatersIcon />
+              </span>
+              <span>{title}</span>
+            </p>
+          ),
+        }
+      );
       addNewEdge(`film-e-${id}`, "0", `film-n-${id}`);
 
       starships
@@ -76,8 +108,19 @@ export const HeroModal = ({
 
           addNode(
             `starship-n-${starship.id}`,
-            { x: starshipX, y: 200 },
-            { label: <p>{starship.name}</p> }
+            { x: starshipX, y: 400 },
+            {
+              label: (
+                <p>
+                  <span
+                    style={{ display: "inline-block", verticalAlign: "middle" }}
+                  >
+                    <StarBorderPurple500Icon />
+                  </span>
+                  <span>{starship.name}</span>
+                </p>
+              ),
+            }
           );
           addNewEdge(
             `starship-e-${id}-${starship.id}`,
@@ -89,13 +132,17 @@ export const HeroModal = ({
   }, [addNewEdge, addNode, films, starships]);
 
   return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>{name}</DialogTitle>
-      {nodes.length > 0 && (
-        <div style={{ width: "500px", height: "500px" }}>
-          <ReactFlow nodes={nodes} edges={edges} fitView />
-        </div>
-      )}
+    <Dialog onClose={handleClose} open={open} maxWidth="lg" fullWidth={true}>
+      <DialogTitle sx={{ textAlign: "center" }}>
+        Films and Starships
+      </DialogTitle>
+      <Box sx={{ color: "#000" }}>
+        {nodes.length > 0 && (
+          <div style={{ width: "1200px", height: "70vh" }}>
+            <ReactFlow nodes={nodes} edges={edges} />
+          </div>
+        )}
+      </Box>
       {films && (
         <DialogContent>
           {films.map((f) => (
