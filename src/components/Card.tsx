@@ -1,4 +1,4 @@
-import { useModal } from "../hooks";
+import { useModal } from "../hooks/index";
 import { Box, Paper, Typography } from "@mui/material";
 import { HeroModal } from "./HeroModal";
 import { Image } from "./Image";
