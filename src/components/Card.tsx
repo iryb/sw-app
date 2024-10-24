@@ -1,15 +1,12 @@
 import { useModal } from "../hooks/index";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { HeroModal } from "./HeroModal";
 import { Image } from "./Image";
 import { styled } from "@mui/material/styles";
 import { useHeroContext } from "../contexts/index";
+import { Hero } from "../types/types";
 
-type CardProps = {
-  id: string;
-  name: string;
-  starships: number[];
-};
+type CardProps = Hero & {};
 
 export const Card = ({ id, name, starships }: CardProps) => {
   const { isOpened, handleClose } = useModal();
@@ -63,11 +60,16 @@ export const Card = ({ id, name, starships }: CardProps) => {
 
   return (
     <Wrapper>
-      <Item elevation={12} onClick={() => handleHeroClick(id, name, starships)}>
-        <Image width={235} height={320} id={id} alt={name} />
-        <Title>{name}</Title>
-        {selectedHero && <HeroModal open={isOpened} onClose={handleClose} />}
-      </Item>
+      <Button
+        onClick={() => handleHeroClick(id, name, starships)}
+        sx={{ p: 0 }}
+      >
+        <Item elevation={12}>
+          <Image width={235} height={320} id={id} alt={name} />
+          <Title>{name}</Title>
+          {selectedHero && <HeroModal open={isOpened} onClose={handleClose} />}
+        </Item>
+      </Button>
     </Wrapper>
   );
 };
