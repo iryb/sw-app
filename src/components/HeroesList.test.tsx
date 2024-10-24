@@ -4,27 +4,14 @@ import { useHeroes } from "../hooks/index";
 import { Card } from "./Card";
 import { Pagination } from "./Pagination";
 
-type HeroesType = {
-  data: {
-    results: { id: string; name: string; starships: number[] }[];
-    count: number;
-  } | null;
-  error: { message: string } | null;
-  isLoading: boolean;
-  isError: boolean;
-};
-
 jest.mock("../hooks/index", () => ({
   useHeroes: jest.fn(),
 }));
 jest.mock("./Card");
 jest.mock("./Pagination");
-jest.mock("@mui/material/Skeleton", () => ({
-  Skeleton: () => <div data-testid="skeleton">Loading</div>,
-}));
 
 describe("HeroesList Component", () => {
-  let mockUseHeroes = useHeroes as unknown as jest.Mock<HeroesType, any, any>;
+  let mockUseHeroes = useHeroes as jest.Mock;
 
   beforeEach(() => {
     mockUseHeroes.mockReturnValue({
@@ -35,7 +22,7 @@ describe("HeroesList Component", () => {
     });
   });
 
-  it("renders message if there are no heroes", () => {
+  test("renders message if there are no heroes", () => {
     mockUseHeroes.mockReturnValue({
       data: null,
       error: null,
@@ -46,7 +33,7 @@ describe("HeroesList Component", () => {
     expect(screen.getByText("No heroes were found.")).toBeInTheDocument();
   });
 
-  it("renders cards for each hero", () => {
+  test("renders cards for each hero", () => {
     mockUseHeroes.mockReturnValue({
       data: {
         results: [
@@ -64,7 +51,7 @@ describe("HeroesList Component", () => {
     expect(Card).toHaveBeenCalledTimes(2);
   });
 
-  it("shows error message when there is an error", () => {
+  test("shows error message when there is an error", () => {
     mockUseHeroes.mockReturnValue({
       data: null,
       error: { message: "Error fetching heroes" },
@@ -77,7 +64,7 @@ describe("HeroesList Component", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders pagination component", () => {
+  test("renders pagination component", () => {
     mockUseHeroes.mockReturnValue({
       data: {
         results: [
@@ -91,6 +78,6 @@ describe("HeroesList Component", () => {
       isError: false,
     });
     render(<HeroesList />);
-    expect(Card).toHaveBeenCalledTimes(2);
+    expect(Pagination).toHaveBeenCalledTimes(1);
   });
 });

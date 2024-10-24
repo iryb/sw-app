@@ -17,7 +17,7 @@ jest.mock("../hooks/index", () => ({
 describe("Card Component", () => {
   const selectHeroMock = jest.fn();
   const mockedUseHeroContext = useHeroContext as jest.Mock;
-  let mockedUseModal = useModal as jest.Mock;
+  const mockedUseModal = useModal as jest.Mock;
 
   beforeEach(() => {
     jest.clearAllMocks();
