@@ -62,7 +62,7 @@ export const Card = ({ id, name, starships }: CardProps) => {
     <Wrapper>
       <Button
         onClick={() => handleHeroClick(id, name, starships)}
-        sx={{ p: 0 }}
+        sx={{ p: 0, height: "100%" }}
       >
         <Item elevation={12}>
           <Image width={235} height={320} id={id} alt={name} />
