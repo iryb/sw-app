@@ -3,10 +3,8 @@ import { useHeroes } from "../hooks/index";
 import { Hero } from "../types/types";
 import { Pagination } from "./Pagination";
 import { transformPaginationCount } from "../utils/utils";
-import Grid from "@mui/material/Grid2";
 import { Card } from "./Card";
-import { Container } from "@mui/material";
-import { Skeleton } from "@mui/material";
+import { Container, Skeleton, Grid2 as Grid, Typography } from "@mui/material";
 
 export const HeroesList = () => {
   const [page, setPage] = useState(1);
@@ -33,6 +31,13 @@ export const HeroesList = () => {
         <Grid size={12} display="flex" justifyContent="center" sx={{ my: 4 }}>
           <Skeleton variant="rectangular" width={300} height={30} />
         </Grid>
+      </Container>
+    );
+
+  if (heroes.length === 0)
+    return (
+      <Container maxWidth="xl">
+        <Typography>No heroes were found.</Typography>
       </Container>
     );
 

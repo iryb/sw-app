@@ -14,29 +14,28 @@ type reactFlowProps = {
 };
 
 export const useReactFlow = ({ initialNodes }: reactFlowProps) => {
-  // const initialNodes = [
-  //   { id: "0", position: { x: 0, y: 0 }, data: { label: "1" } },
-  // ];
-  //@ts-ignore
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 
-  const addNode = useCallback((id: string, position: any, data: any) => {
-    setNodes((nds) => [
-      ...nds,
-      {
-        id,
-        position,
-        data,
-      },
-    ]);
-  }, []);
+  const addNode = useCallback(
+    (id: string, position: any, data: any) => {
+      setNodes((nds) => [
+        ...nds,
+        {
+          id,
+          position,
+          data,
+        },
+      ]);
+    },
+    [setNodes]
+  );
 
   const addNewEdge = useCallback(
     (id: string, source: string, target: string) => {
       setEdges((eds) => addEdge({ id, source, target }, eds));
     },
-    []
+    [setEdges]
   );
 
   return {

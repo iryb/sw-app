@@ -1,6 +1,11 @@
-// HeroContext.tsx
 import { Hero } from "../types/types";
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useCallback,
+} from "react";
 
 interface HeroContextType {
   selectedHero: Hero | null;
@@ -12,9 +17,9 @@ const HeroContext = createContext<HeroContextType | undefined>(undefined);
 export const HeroProvider = ({ children }: { children: ReactNode }) => {
   const [selectedHero, setSelectedHero] = useState<Hero | null>(null);
 
-  const selectHero = (hero: Hero) => {
+  const selectHero = useCallback((hero: Hero) => {
     setSelectedHero(hero);
-  };
+  }, []);
 
   return (
     <HeroContext.Provider value={{ selectedHero, selectHero }}>
