@@ -64,7 +64,7 @@ export const Card = ({ id, name, starships }: CardProps) => {
         onClick={() => handleHeroClick(id, name, starships)}
         sx={{ p: 0, height: "100%" }}
       >
-        <Item elevation={12}>
+        <Item elevation={12} sx={{ height: "100%" }}>
           <Image width={235} height={320} id={id} alt={name} />
           <Title>{name}</Title>
           {selectedHero && <HeroModal open={isOpened} onClose={handleClose} />}
