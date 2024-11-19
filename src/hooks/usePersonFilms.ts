@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPersonFilms } from "../services/api";
-import { getFilmsResponse } from "@/types/types";
+import { APIResponse, Film } from "@/types/types";
 import { useHeroContext } from "../contexts";
 
 export const usePersonFilms = () => {
@@ -8,7 +8,7 @@ export const usePersonFilms = () => {
 
   const personId = selectedHero?.id;
 
-  return useQuery<getFilmsResponse, Error>({
+  return useQuery<APIResponse<Film>, Error>({
     queryKey: ["personFilms", personId],
     queryFn: () => fetchPersonFilms(personId!),
     enabled: !!personId, // Only fetch if personId is available

@@ -1,11 +1,7 @@
 import { API, ImageAPI } from "../constants/constants";
-import {
-  getFilmsResponse,
-  getPeopleResponse,
-  getStarshipsResponse,
-} from "../types/types";
+import { APIResponse, Film, Hero, Starship } from "../types/types";
 
-export const fetchPeople = async (page: number): Promise<getPeopleResponse> => {
+export const fetchPeople = async (page: number): Promise<APIResponse<Hero>> => {
   const res = await fetch(`${API}/people/?page=${page}`);
   if (!res.ok) throw new Error("Failed to fetch people");
   return res.json();
@@ -13,7 +9,7 @@ export const fetchPeople = async (page: number): Promise<getPeopleResponse> => {
 
 export const fetchPersonFilms = async (
   personId: string
-): Promise<getFilmsResponse> => {
+): Promise<APIResponse<Film>> => {
   const res = await fetch(`${API}/films/?characters__in=${personId}`);
   if (!res.ok) throw new Error("Failed to fetch films");
   return res.json();
@@ -21,7 +17,7 @@ export const fetchPersonFilms = async (
 
 export const fetchPersonStarships = async (
   heroStarshipsIds: number[]
-): Promise<getStarshipsResponse> => {
+): Promise<APIResponse<Starship>> => {
   const res = await fetch(
     `${API}/starships/?id__in=${heroStarshipsIds.toString()}`
   );

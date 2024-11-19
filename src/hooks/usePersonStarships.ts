@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPersonStarships } from "../services/api";
-import { getStarshipsResponse } from "@/types/types";
+import { APIResponse, Starship } from "@/types/types";
 import { useHeroContext } from "../contexts";
 
 export const usePersonStarships = () => {
@@ -8,7 +8,7 @@ export const usePersonStarships = () => {
 
   const starshipIds = selectedHero?.starships;
 
-  return useQuery<getStarshipsResponse, Error>({
+  return useQuery<APIResponse<Starship>, Error>({
     queryKey: ["personStarships", starshipIds],
     queryFn: () => fetchPersonStarships(starshipIds!),
     enabled: starshipIds && starshipIds.length > 0, // Only fetch if starshipIds are provided

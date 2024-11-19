@@ -1,11 +1,8 @@
-type APIResponse = {
+export type APIResponse<T> = {
   count: number;
   next: string | null;
   previous: string | null;
-};
-
-export type getPeopleResponse = APIResponse & {
-  results: Hero[];
+  results: T[];
 };
 
 export type Hero = {
@@ -20,15 +17,7 @@ export type Film = {
   starships: number[];
 };
 
-export type getFilmsResponse = APIResponse & {
-  results: Film[];
-};
-
 export type Starship = {
   id: number;
   name: string;
-};
-
-export type getStarshipsResponse = APIResponse & {
-  results: Starship[];
 };
